@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LeagueTrack | Tournament Summary</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="container navbar-content">
+
+        <a href="index.html" class="logo">
+            League<span>Track</span>
+        </a>
+
+        <nav>
+            <ul class="nav-links">
+
+                <li>
+                    <a href="index.html">Dashboard</a>
+                </li>
+
+                <li>
+                    <a href="teams.html">Teams</a>
+                </li>
+
+                <li>
+                    <a href="fixtures.html">Fixtures</a>
+                </li>
+
+                <li>
+                    <a href="matches.html">Matches</a>
+                </li>
+
+                <li>
+                    <a href="standings.html">Standings</a>
+                </li>
+
+                <li>
+                    <a href="statistics.html">Statistics</a>
+                </li>
+
+            </ul>
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <section class="section">
+
+        <div class="container">
+
+            <!-- PAGE HEADER -->
+
+            <div class="section-title">
+
+            <span class="badge">
+                📋 TOURNAMENT OVERVIEW
+            </span>
+
+                <h2>
+                    Tournament Summary
+                </h2>
+
+                <p>
+                    Get a quick overview of the current
+                    tournament progress and performance.
+                </p>
+
+            </div>
+
+
+            <!-- SUMMARY CARDS -->
+
+            <div class="card-grid">
+
+                <!-- TOTAL TEAMS -->
+
+                <div class="card">
+
+                    <div class="card-icon">
+                        👥
+                    </div>
+
+                    <h3>
+                        Total Teams
+                    </h3>
+
+                    <p
+                            id="totalTeams"
+                            style="
+                        font-size: 34px;
+                        color: var(--primary);
+                        font-weight: 800;
+                        margin-top: 12px;
+                    "
+                    >
+                        --
+                    </p>
+
+                </div>
+
+
+                <!-- TOTAL FIXTURES -->
+
+                <div class="card">
+
+                    <div class="card-icon">
+                        ⚽
+                    </div>
+
+                    <h3>
+                        Total Fixtures
+                    </h3>
+
+                    <p
+                            id="totalFixtures"
+                            style="
+                        font-size: 34px;
+                        color: var(--primary);
+                        font-weight: 800;
+                        margin-top: 12px;
+                    "
+                    >
+                        --
+                    </p>
+
+                </div>
+
+
+                <!-- COMPLETED -->
+
+                <div class="card">
+
+                    <div class="card-icon">
+                        ✅
+                    </div>
+
+                    <h3>
+                        Completed Matches
+                    </h3>
+
+                    <p
+                            id="completedMatches"
+                            style="
+                        font-size: 34px;
+                        color: var(--success);
+                        font-weight: 800;
+                        margin-top: 12px;
+                    "
+                    >
+                        --
+                    </p>
+
+                </div>
+
+
+                <!-- PENDING -->
+
+                <div class="card">
+
+                    <div class="card-icon">
+                        ⏳
+                    </div>
+
+                    <h3>
+                        Pending Matches
+                    </h3>
+
+                    <p
+                            id="pendingMatches"
+                            style="
+                        font-size: 34px;
+                        color: var(--warning);
+                        font-weight: 800;
+                        margin-top: 12px;
+                    "
+                    >
+                        --
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- SECOND ROW -->
+
+            <div class="card-grid">
+
+                <!-- TOTAL GOALS -->
+
+                <div class="card">
+
+                    <div class="card-icon">
+                        🥅
+                    </div>
+
+                    <h3>
+                        Total Goals
+                    </h3>
+
+                    <p
+                            id="totalGoals"
+                            style="
+                        font-size: 34px;
+                        color: var(--primary);
+                        font-weight: 800;
+                        margin-top: 12px;
+                    "
+                    >
+                        --
+                    </p>
+
+                </div>
+
+
+                <!-- LEADER -->
+
+                <div class="card">
+
+                    <div class="card-icon">
+                        🏆
+                    </div>
+
+                    <h3>
+                        Current Leader
+                    </h3>
+
+                    <p
+                            id="currentLeader"
+                            style="
+                        font-size: 24px;
+                        color: var(--primary);
+                        font-weight: 800;
+                        margin-top: 15px;
+                    "
+                    >
+                        --
+                    </p>
+
+                </div>
+
+
+                <!-- VIEW STANDINGS -->
+
+                <div class="card">
+
+                    <div class="card-icon">
+                        📊
+                    </div>
+
+                    <h3>
+                        League Table
+                    </h3>
+
+                    <p>
+                        View the latest tournament standings.
+                    </p>
+
+                    <a
+                            href="standings.html"
+                            class="btn btn-primary"
+                    >
+                        View Standings
+                    </a>
+
+                </div>
+
+
+                <!-- RECORD RESULT -->
+
+                <div class="card">
+
+                    <div class="card-icon">
+                        📝
+                    </div>
+
+                    <h3>
+                        Record Result
+                    </h3>
+
+                    <p>
+                        Enter a completed match result.
+                    </p>
+
+                    <a
+                            href="matches.html"
+                            class="btn btn-primary"
+                    >
+                        Record Result
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- STATUS PANEL -->
+
+            <div
+                    class="glass-panel"
+                    style="margin-top: 30px;"
+            >
+
+                <h2>
+                    Tournament Status
+                </h2>
+
+                <p
+                        id="tournamentStatus"
+                        style="
+                    color: var(--muted);
+                    margin-top: 12px;
+                    line-height: 1.7;
+                "
+                >
+                    Loading tournament information...
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer class="footer">
+
+    <div class="container">
+
+        <p>
+            © 2026 LeagueTrack
+            • Intramural Sports Tournament Management System
+        </p>
+
+    </div>
+
+</footer>
+
+
+<script>
+
+    // ==========================================
+    // LOAD TOURNAMENT SUMMARY
+    // ==========================================
+
+    async function loadSummary() {
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/tournament/summary"
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to load tournament summary"
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            // Total teams
+
+            document.getElementById(
+                "totalTeams"
+            ).textContent =
+                data.totalTeams;
+
+
+            // Total fixtures
+
+            document.getElementById(
+                "totalFixtures"
+            ).textContent =
+                data.totalFixtures;
+
+
+            // Completed matches
+
+            document.getElementById(
+                "completedMatches"
+            ).textContent =
+                data.completedMatches;
+
+
+            // Pending matches
+
+            document.getElementById(
+                "pendingMatches"
+            ).textContent =
+                data.pendingMatches;
+
+
+            // Total goals
+
+            document.getElementById(
+                "totalGoals"
+            ).textContent =
+                data.totalGoals;
+
+
+            // Current leader
+
+            document.getElementById(
+                "currentLeader"
+            ).textContent =
+                data.currentLeader;
+
+
+            // Tournament status
+
+            const status =
+                document.getElementById(
+                    "tournamentStatus"
+                );
+
+
+            if (data.totalFixtures === 0) {
+
+                status.textContent =
+                    "Teams are registered, but fixtures have not been generated yet.";
+
+            }
+            else if (
+                data.completedMatches ===
+                data.totalFixtures
+            ) {
+
+                status.textContent =
+                    "🏆 All tournament fixtures have been completed.";
+
+            }
+            else {
+
+                status.textContent =
+                    `The tournament is currently in progress. ` +
+                    `${data.completedMatches} of ` +
+                    `${data.totalFixtures} fixtures have been completed, ` +
+                    `with ${data.pendingMatches} matches remaining.`;
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+
+            document.getElementById(
+                "tournamentStatus"
+            ).textContent =
+                "Unable to connect to the backend.";
+
+        }
+
+    }
+
+
+    // Load summary when page opens
+    loadSummary();
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LeagueTrack | Teams</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+    <div class="container navbar-content">
+
+        <a href="index.html" class="logo">
+            League<span>Track</span>
+        </a>
+
+        <nav>
+            <ul class="nav-links">
+
+                <li>
+                    <a href="index.html">
+                        Dashboard
+                    </a>
+                </li>
+
+                <li>
+                    <a href="teams.html" class="active">
+                        Teams
+                    </a>
+                </li>
+
+                <li>
+                    <a href="fixtures.html">
+                        Fixtures
+                    </a>
+                </li>
+
+                <li>
+                    <a href="matches.html">
+                        Matches
+                    </a>
+                </li>
+
+                <li>
+                    <a href="standings.html">
+                        Standings
+                    </a>
+                </li>
+
+                <li>
+                    <a href="statistics.html">
+                        Statistics
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+
+    </div>
+
+</header>
+
+
+<!-- ================= MAIN ================= -->
+
+<main>
+
+    <section class="section">
+
+        <div class="container">
+
+            <!-- Page Header -->
+
+            <div class="section-title">
+
+            <span class="badge">
+                👥 TEAM MANAGEMENT
+            </span>
+
+                <h2>
+                    Tournament Teams
+                </h2>
+
+                <p>
+                    Register and manage all teams participating
+                    in the LeagueTrack tournament.
+                </p>
+
+            </div>
+
+
+            <!-- ================= REGISTER TEAM ================= -->
+
+            <div class="glass-panel">
+
+                <h2>
+                    Register New Team
+                </h2>
+
+                <p style="color: var(--muted); margin-top: 8px;">
+                    Add a new team to the tournament.
+                </p>
+
+
+                <form id="teamForm">
+
+                    <div class="form-group" style="margin-top: 25px;">
+
+                        <label for="teamName">
+                            Team Name
+                        </label>
+
+                        <input
+                                type="text"
+                                id="teamName"
+                                class="form-control"
+                                placeholder="Enter team name"
+                                required
+                        >
+
+                    </div>
+
+
+                    <button
+                            type="submit"
+                            class="btn btn-primary"
+                    >
+                        + Register Team
+                    </button>
+
+                </form>
+
+
+                <!-- Message -->
+
+                <div
+                        id="teamMessage"
+                        style="
+                    margin-top: 18px;
+                    font-weight: 600;
+                "
+                ></div>
+
+            </div>
+
+
+            <!-- ================= TEAM LIST ================= -->
+
+            <div class="section">
+
+                <div class="section-title">
+
+                    <h2>
+                        Registered Teams
+                    </h2>
+
+                    <p>
+                        Teams currently registered for the tournament.
+                    </p>
+
+                </div>
+
+
+                <div class="glass-panel">
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+
+                            <tr>
+                                <th>ID</th>
+                                <th>Team Name</th>
+                                <th>Action</th>
+                            </tr>
+
+                            </thead>
+
+                            <tbody id="teamTableBody">
+
+                            <tr>
+                                <td colspan="3">
+                                    Loading teams...
+                                </td>
+                            </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+
+    <div class="container">
+
+        <p>
+            © 2026 LeagueTrack
+            • Intramural Sports Tournament Management System
+        </p>
+
+    </div>
+
+</footer>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+    const API_URL = "/api/teams";
+
+
+    // Load all teams
+    async function loadTeams() {
+
+        try {
+
+            const response = await fetch(API_URL);
+
+            if (!response.ok) {
+                throw new Error("Unable to load teams");
+            }
+
+            const teams = await response.json();
+
+            const tableBody =
+                document.getElementById("teamTableBody");
+
+            tableBody.innerHTML = "";
+
+
+            if (teams.length === 0) {
+
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="3">
+                            No teams registered yet.
+                        </td>
+                    </tr>
+                `;
+
+                return;
+            }
+
+
+            teams.forEach(team => {
+
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${team.id}</td>
+
+                    <td>
+                        <strong>${team.name}</strong>
+                    </td>
+
+                    <td>
+                        <button
+                            class="btn btn-secondary"
+                            style="margin-top: 0;"
+                            onclick="deleteTeam(${team.id})"
+                        >
+                            Delete
+                        </button>
+                    </td>
+                `;
+
+                tableBody.appendChild(row);
+
+            });
+
+        } catch (error) {
+
+            document.getElementById("teamTableBody").innerHTML = `
+                <tr>
+                    <td colspan="3">
+                        Unable to connect to the backend.
+                    </td>
+                </tr>
+            `;
+
+            console.error(error);
+        }
+    }
+
+
+    // Register new team
+    document
+        .getElementById("teamForm")
+        .addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+
+            const teamName =
+                document.getElementById("teamName").value.trim();
+
+            const message =
+                document.getElementById("teamMessage");
+
+
+            if (!teamName) {
+
+                message.textContent =
+                    "Please enter a team name.";
+
+                message.style.color =
+                    "var(--danger)";
+
+                return;
+            }
+
+
+            try {
+
+                const response = await fetch(API_URL, {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        name: teamName
+                    })
+
+                });
+
+
+                const data = await response.json();
+
+
+                if (!response.ok) {
+
+                    message.textContent =
+                        data.error ||
+                        data.name ||
+                        "Unable to register team.";
+
+                    message.style.color =
+                        "var(--danger)";
+
+                    return;
+                }
+
+
+                message.textContent =
+                    `Team "${data.name}" registered successfully!`;
+
+                message.style.color =
+                    "var(--success)";
+
+
+                document
+                    .getElementById("teamName")
+                    .value = "";
+
+
+                loadTeams();
+
+            } catch (error) {
+
+                message.textContent =
+                    "Unable to connect to the backend.";
+
+                message.style.color =
+                    "var(--danger)";
+
+                console.error(error);
+            }
+
+        });
+
+
+    // Delete team
+    async function deleteTeam(teamId) {
+
+        const confirmed =
+            confirm(
+                "Are you sure you want to delete this team?"
+            );
+
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        try {
+
+            const response =
+                await fetch(`${API_URL}/${teamId}`, {
+                    method: "DELETE"
+                });
+
+
+            if (!response.ok) {
+
+                const data =
+                    await response.json();
+
+                alert(
+                    data.error ||
+                    "Unable to delete team."
+                );
+
+                return;
+            }
+
+
+            loadTeams();
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "Unable to connect to the backend."
+            );
+        }
+
+    }
+
+
+    // Load teams when page opens
+    loadTeams();
+
+</script>
+
+
+</body>
+</html>

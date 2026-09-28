@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LeagueTrack | Statistics</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="container navbar-content">
+
+        <a href="index.html" class="logo">
+            League<span>Track</span>
+        </a>
+
+        <nav>
+            <ul class="nav-links">
+
+                <li>
+                    <a href="index.html">Dashboard</a>
+                </li>
+
+                <li>
+                    <a href="teams.html">Teams</a>
+                </li>
+
+                <li>
+                    <a href="fixtures.html">Fixtures</a>
+                </li>
+
+                <li>
+                    <a href="matches.html">Matches</a>
+                </li>
+
+                <li>
+                    <a href="standings.html">Standings</a>
+                </li>
+
+                <li>
+                    <a href="statistics.html" class="active">
+                        Statistics
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <section class="section">
+
+        <div class="container">
+
+            <!-- PAGE HEADER -->
+
+            <div class="section-title">
+
+            <span class="badge">
+                📈 TEAM PERFORMANCE
+            </span>
+
+                <h2>
+                    Team Statistics
+                </h2>
+
+                <p>
+                    View detailed performance statistics
+                    for each tournament team.
+                </p>
+
+            </div>
+
+
+            <!-- TEAM SELECTION -->
+
+            <div class="glass-panel">
+
+                <h2>
+                    Select Team
+                </h2>
+
+                <p style="color: var(--muted); margin-top: 8px;">
+                    Choose a team to view its complete
+                    tournament performance.
+                </p>
+
+
+                <div class="form-group" style="margin-top: 25px;">
+
+                    <label for="teamSelect">
+                        Team
+                    </label>
+
+                    <select
+                            id="teamSelect"
+                            class="form-control"
+                    >
+
+                        <option value="">
+                            Loading teams...
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button
+                        class="btn btn-primary"
+                        onclick="loadStatistics()"
+                >
+                    📊 View Statistics
+                </button>
+
+            </div>
+
+
+            <!-- STATISTICS -->
+
+            <div
+                    id="statisticsSection"
+                    style="display: none;"
+            >
+
+                <div class="section">
+
+                    <div class="section-title">
+
+                        <h2 id="teamTitle">
+                            Team Statistics
+                        </h2>
+
+                    </div>
+
+
+                    <div class="card-grid">
+
+                        <div class="card">
+
+                            <div class="card-icon">
+                                ⚽
+                            </div>
+
+                            <h3>
+                                Matches Played
+                            </h3>
+
+                            <p
+                                    id="played"
+                                    style="
+                                font-size: 30px;
+                                color: var(--primary);
+                                font-weight: 800;
+                                margin-top: 10px;
+                            "
+                            >
+                                0
+                            </p>
+
+                        </div>
+
+
+                        <div class="card">
+
+                            <div class="card-icon">
+                                🏆
+                            </div>
+
+                            <h3>
+                                Wins
+                            </h3>
+
+                            <p
+                                    id="wins"
+                                    style="
+                                font-size: 30px;
+                                color: var(--success);
+                                font-weight: 800;
+                                margin-top: 10px;
+                            "
+                            >
+                                0
+                            </p>
+
+                        </div>
+
+
+                        <div class="card">
+
+                            <div class="card-icon">
+                                🤝
+                            </div>
+
+                            <h3>
+                                Draws
+                            </h3>
+
+                            <p
+                                    id="draws"
+                                    style="
+                                font-size: 30px;
+                                color: var(--warning);
+                                font-weight: 800;
+                                margin-top: 10px;
+                            "
+                            >
+                                0
+                            </p>
+
+                        </div>
+
+
+                        <div class="card">
+
+                            <div class="card-icon">
+                                ❌
+                            </div>
+
+                            <h3>
+                                Losses
+                            </h3>
+
+                            <p
+                                    id="losses"
+                                    style="
+                                font-size: 30px;
+                                color: var(--danger);
+                                font-weight: 800;
+                                margin-top: 10px;
+                            "
+                            >
+                                0
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="card-grid">
+
+                        <div class="card">
+
+                            <div class="card-icon">
+                                ⚽
+                            </div>
+
+                            <h3>
+                                Goals Scored
+                            </h3>
+
+                            <p
+                                    id="goalsScored"
+                                    style="
+                                font-size: 30px;
+                                color: var(--primary);
+                                font-weight: 800;
+                                margin-top: 10px;
+                            "
+                            >
+                                0
+                            </p>
+
+                        </div>
+
+
+                        <div class="card">
+
+                            <div class="card-icon">
+                                🥅
+                            </div>
+
+                            <h3>
+                                Goals Conceded
+                            </h3>
+
+                            <p
+                                    id="goalsConceded"
+                                    style="
+                                font-size: 30px;
+                                color: var(--danger);
+                                font-weight: 800;
+                                margin-top: 10px;
+                            "
+                            >
+                                0
+                            </p>
+
+                        </div>
+
+
+                        <div class="card">
+
+                            <div class="card-icon">
+                                ⭐
+                            </div>
+
+                            <h3>
+                                Points
+                            </h3>
+
+                            <p
+                                    id="points"
+                                    style="
+                                font-size: 30px;
+                                color: var(--primary);
+                                font-weight: 800;
+                                margin-top: 10px;
+                            "
+                            >
+                                0
+                            </p>
+
+                        </div>
+
+
+                        <div class="card">
+
+                            <div class="card-icon">
+                                📊
+                            </div>
+
+                            <h3>
+                                Goal Difference
+                            </h3>
+
+                            <p
+                                    id="goalDifference"
+                                    style="
+                                font-size: 30px;
+                                color: var(--primary);
+                                font-weight: 800;
+                                margin-top: 10px;
+                            "
+                            >
+                                0
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ERROR MESSAGE -->
+
+            <div
+                    id="errorMessage"
+                    style="
+                margin-top: 20px;
+                font-weight: 600;
+            "
+            ></div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer class="footer">
+
+    <div class="container">
+
+        <p>
+            © 2026 LeagueTrack
+            • Intramural Sports Tournament Management System
+        </p>
+
+    </div>
+
+</footer>
+
+
+<script>
+
+    const teamsAPI = "/api/teams";
+
+
+    // ==========================================
+    // LOAD TEAMS
+    // ==========================================
+
+    async function loadTeams() {
+
+        const select =
+            document.getElementById(
+                "teamSelect"
+            );
+
+        try {
+
+            const response =
+                await fetch(teamsAPI);
+
+
+            if (!response.ok) {
+                throw new Error(
+                    "Unable to load teams"
+                );
+            }
+
+
+            const teams =
+                await response.json();
+
+
+            select.innerHTML =
+                `<option value="">
+                    Select a team
+                 </option>`;
+
+
+            teams.forEach(team => {
+
+                const option =
+                    document.createElement("option");
+
+                option.value =
+                    team.id;
+
+                option.textContent =
+                    team.name;
+
+                select.appendChild(option);
+
+            });
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            select.innerHTML =
+                `<option value="">
+                    Unable to load teams
+                 </option>`;
+        }
+
+    }
+
+
+    // ==========================================
+    // LOAD TEAM STATISTICS
+    // ==========================================
+
+    async function loadStatistics() {
+
+        const teamId =
+            document.getElementById(
+                "teamSelect"
+            ).value;
+
+
+        const errorMessage =
+            document.getElementById(
+                "errorMessage"
+            );
+
+
+        if (!teamId) {
+
+            errorMessage.textContent =
+                "Please select a team.";
+
+            errorMessage.style.color =
+                "var(--danger)";
+
+            return;
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `/api/teams/${teamId}/statistics`
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                errorMessage.textContent =
+                    data.error ||
+                    "Unable to load statistics.";
+
+                errorMessage.style.color =
+                    "var(--danger)";
+
+                return;
+            }
+
+
+            errorMessage.textContent = "";
+
+
+            // Team name
+
+            document.getElementById(
+                "teamTitle"
+            ).textContent =
+                `${data.teamName} - Performance Statistics`;
+
+
+            // Statistics
+
+            document.getElementById(
+                "played"
+            ).textContent =
+                data.played;
+
+
+            document.getElementById(
+                "wins"
+            ).textContent =
+                data.wins;
+
+
+            document.getElementById(
+                "draws"
+            ).textContent =
+                data.draws;
+
+
+            document.getElementById(
+                "losses"
+            ).textContent =
+                data.losses;
+
+
+            document.getElementById(
+                "goalsScored"
+            ).textContent =
+                data.goalsScored;
+
+
+            document.getElementById(
+                "goalsConceded"
+            ).textContent =
+                data.goalsConceded;
+
+
+            document.getElementById(
+                "points"
+            ).textContent =
+                data.points;
+
+
+            const difference =
+                data.goalsScored -
+                data.goalsConceded;
+
+
+            document.getElementById(
+                "goalDifference"
+            ).textContent =
+                difference >= 0
+                    ? `+${difference}`
+                    : difference;
+
+
+            document.getElementById(
+                "statisticsSection"
+            ).style.display =
+                "block";
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            errorMessage.textContent =
+                "Unable to connect to the backend.";
+
+            errorMessage.style.color =
+                "var(--danger)";
+        }
+
+    }
+
+
+    // Load teams when page opens
+    loadTeams();
+
+</script>
+
+
+</body>
+</html>

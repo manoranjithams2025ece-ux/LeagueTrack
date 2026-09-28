@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LeagueTrack | Fixtures</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="container navbar-content">
+
+        <a href="index.html" class="logo">
+            League<span>Track</span>
+        </a>
+
+        <nav>
+            <ul class="nav-links">
+
+                <li><a href="index.html">Dashboard</a></li>
+
+                <li><a href="teams.html">Teams</a></li>
+
+                <li><a href="fixtures.html" class="active">
+                    Fixtures
+                </a></li>
+
+                <li><a href="matches.html">Matches</a></li>
+
+                <li><a href="standings.html">Standings</a></li>
+
+                <li><a href="statistics.html">Statistics</a></li>
+
+            </ul>
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <section class="section">
+
+        <div class="container">
+
+            <!-- PAGE HEADER -->
+
+            <div class="section-title">
+
+            <span class="badge">
+                ⚽ FIXTURE MANAGEMENT
+            </span>
+
+                <h2>
+                    Tournament Fixtures
+                </h2>
+
+                <p>
+                    Automatically generate and view all
+                    round-robin tournament fixtures.
+                </p>
+
+            </div>
+
+
+            <!-- GENERATE FIXTURES -->
+
+            <div class="glass-panel">
+
+                <h2>
+                    Generate Round-Robin Fixtures
+                </h2>
+
+                <p style="color: var(--muted); margin-top: 8px;">
+                    The system automatically creates one fixture
+                    between every pair of registered teams.
+                </p>
+
+                <button
+                        id="generateButton"
+                        class="btn btn-primary"
+                        style="margin-top: 25px;"
+                        onclick="generateFixtures()"
+                >
+                    ⚡ Generate Fixtures
+                </button>
+
+                <div
+                        id="fixtureMessage"
+                        style="
+                    margin-top: 18px;
+                    font-weight: 600;
+                "
+                ></div>
+
+            </div>
+
+
+            <!-- FIXTURE LIST -->
+
+            <div class="section">
+
+                <div class="section-title">
+
+                    <h2>
+                        All Fixtures
+                    </h2>
+
+                    <p>
+                        Current tournament fixtures and match status.
+                    </p>
+
+                </div>
+
+
+                <div class="glass-panel">
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+
+                            <tr>
+                                <th>ID</th>
+                                <th>Home Team</th>
+                                <th>Away Team</th>
+                                <th>Status</th>
+                            </tr>
+
+                            </thead>
+
+                            <tbody id="fixtureTableBody">
+
+                            <tr>
+                                <td colspan="4">
+                                    Loading fixtures...
+                                </td>
+                            </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer class="footer">
+
+    <div class="container">
+
+        <p>
+            © 2026 LeagueTrack
+            • Intramural Sports Tournament Management System
+        </p>
+
+    </div>
+
+</footer>
+
+
+<script>
+
+    const API_URL = "/api/fixtures";
+
+
+    // ==============================
+    // LOAD FIXTURES
+    // ==============================
+
+    async function loadFixtures() {
+
+        try {
+
+            const response =
+                await fetch(API_URL);
+
+            if (!response.ok) {
+                throw new Error("Unable to load fixtures");
+            }
+
+            const fixtures =
+                await response.json();
+
+            const tableBody =
+                document.getElementById(
+                    "fixtureTableBody"
+                );
+
+            tableBody.innerHTML = "";
+
+
+            if (fixtures.length === 0) {
+
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="4">
+                            No fixtures generated yet.
+                        </td>
+                    </tr>
+                `;
+
+                return;
+            }
+
+
+            fixtures.forEach(fixture => {
+
+                const row =
+                    document.createElement("tr");
+
+
+                const status =
+                    fixture.completed
+                        ? `<span class="status status-success">
+                            Completed
+                           </span>`
+                        : `<span class="status status-warning">
+                            Pending
+                           </span>`;
+
+
+                row.innerHTML = `
+
+                    <td>
+                        ${fixture.id}
+                    </td>
+
+                    <td>
+                        <strong>
+                            ${fixture.homeTeam.name}
+                        </strong>
+                    </td>
+
+                    <td>
+                        <strong>
+                            ${fixture.awayTeam.name}
+                        </strong>
+                    </td>
+
+                    <td>
+                        ${status}
+                    </td>
+
+                `;
+
+
+                tableBody.appendChild(row);
+
+            });
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            document.getElementById(
+                "fixtureTableBody"
+            ).innerHTML = `
+
+                <tr>
+                    <td colspan="4">
+                        Unable to connect to the backend.
+                    </td>
+                </tr>
+
+            `;
+        }
+
+    }
+
+
+    // ==============================
+    // GENERATE FIXTURES
+    // ==============================
+
+    async function generateFixtures() {
+
+        const message =
+            document.getElementById(
+                "fixtureMessage"
+            );
+
+        const button =
+            document.getElementById(
+                "generateButton"
+            );
+
+
+        button.disabled = true;
+
+        button.textContent =
+            "Generating...";
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/generate`,
+                    {
+                        method: "POST"
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                message.textContent =
+                    data.error ||
+                    "Unable to generate fixtures.";
+
+                message.style.color =
+                    "var(--danger)";
+
+                return;
+            }
+
+
+            message.textContent =
+                `${data.length} fixtures generated successfully!`;
+
+            message.style.color =
+                "var(--success)";
+
+
+            loadFixtures();
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            message.textContent =
+                "Unable to connect to the backend.";
+
+            message.style.color =
+                "var(--danger)";
+        }
+
+        finally {
+
+            button.disabled = false;
+
+            button.textContent =
+                "⚡ Generate Fixtures";
+        }
+
+    }
+
+
+    // Load fixtures when page opens
+    loadFixtures();
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LeagueTrack | Standings</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="container navbar-content">
+
+        <a href="index.html" class="logo">
+            League<span>Track</span>
+        </a>
+
+        <nav>
+            <ul class="nav-links">
+
+                <li>
+                    <a href="index.html">Dashboard</a>
+                </li>
+
+                <li>
+                    <a href="teams.html">Teams</a>
+                </li>
+
+                <li>
+                    <a href="fixtures.html">Fixtures</a>
+                </li>
+
+                <li>
+                    <a href="matches.html">Matches</a>
+                </li>
+
+                <li>
+                    <a href="standings.html" class="active">
+                        Standings
+                    </a>
+                </li>
+
+                <li>
+                    <a href="statistics.html">Statistics</a>
+                </li>
+
+            </ul>
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <section class="section">
+
+        <div class="container">
+
+            <!-- PAGE HEADER -->
+
+            <div class="section-title">
+
+            <span class="badge">
+                🏆 LEAGUE STANDINGS
+            </span>
+
+                <h2>
+                    Current Standings
+                </h2>
+
+                <p>
+                    Track team performance and tournament
+                    points in real time.
+                </p>
+
+            </div>
+
+
+            <!-- STANDINGS TABLE -->
+
+            <div class="glass-panel">
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                        <tr>
+                            <th>Rank</th>
+                            <th>Team</th>
+                            <th>Played</th>
+                            <th>Wins</th>
+                            <th>Draws</th>
+                            <th>Losses</th>
+                            <th>GF</th>
+                            <th>GA</th>
+                            <th>Points</th>
+                        </tr>
+
+                        </thead>
+
+                        <tbody id="standingsBody">
+
+                        <tr>
+                            <td colspan="9">
+                                Loading standings...
+                            </td>
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <!-- SCORING RULES -->
+
+            <div class="glass-panel" style="margin-top: 30px;">
+
+                <h2>
+                    Scoring System
+                </h2>
+
+                <p style="color: var(--muted); margin-top: 12px;">
+                    Win = 3 Points
+                    &nbsp; • &nbsp;
+                    Draw = 1 Point
+                    &nbsp; • &nbsp;
+                    Loss = 0 Points
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer class="footer">
+
+    <div class="container">
+
+        <p>
+            © 2026 LeagueTrack
+            • Intramural Sports Tournament Management System
+        </p>
+
+    </div>
+
+</footer>
+
+
+<script>
+
+    // ==========================================
+    // LOAD STANDINGS
+    // ==========================================
+
+    async function loadStandings() {
+
+        const tableBody =
+            document.getElementById(
+                "standingsBody"
+            );
+
+        try {
+
+            const response =
+                await fetch("/api/standings");
+
+
+            if (!response.ok) {
+                throw new Error(
+                    "Unable to load standings"
+                );
+            }
+
+
+            const standings =
+                await response.json();
+
+
+            tableBody.innerHTML = "";
+
+
+            if (standings.length === 0) {
+
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="9">
+                            No standings available.
+                        </td>
+                    </tr>
+                `;
+
+                return;
+            }
+
+
+            standings.forEach(
+                (entry, index) => {
+
+                    const row =
+                        document.createElement("tr");
+
+
+                    let rankDisplay =
+                        index + 1;
+
+
+                    // Medal display for top 3
+                    if (index === 0) {
+                        rankDisplay = "🥇";
+                    }
+                    else if (index === 1) {
+                        rankDisplay = "🥈";
+                    }
+                    else if (index === 2) {
+                        rankDisplay = "🥉";
+                    }
+
+
+                    row.innerHTML = `
+
+                        <td>
+                            <strong>
+                                ${rankDisplay}
+                            </strong>
+                        </td>
+
+                        <td>
+                            <strong>
+                                ${entry.team.name}
+                            </strong>
+                        </td>
+
+                        <td>
+                            ${entry.played}
+                        </td>
+
+                        <td>
+                            ${entry.wins}
+                        </td>
+
+                        <td>
+                            ${entry.draws}
+                        </td>
+
+                        <td>
+                            ${entry.losses}
+                        </td>
+
+                        <td>
+                            ${entry.goalsScored}
+                        </td>
+
+                        <td>
+                            ${entry.goalsConceded}
+                        </td>
+
+                        <td>
+                            <strong style="
+                                color: var(--primary);
+                                font-size: 18px;
+                            ">
+                                ${entry.points}
+                            </strong>
+                        </td>
+
+                    `;
+
+
+                    tableBody.appendChild(row);
+
+                }
+            );
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="9">
+                        Unable to connect to the backend.
+                    </td>
+                </tr>
+            `;
+        }
+
+    }
+
+
+    // Load standings when page opens
+    loadStandings();
+
+</script>
+
+
+</body>
+</html>
